@@ -77,10 +77,94 @@ Platform web berisi kumpulan **28 game edukasi** yang dirancang khusus untuk ana
 
 ### Deploy ke Netlify
 
+#### Opsi 1: Deploy Manual (Drag & Drop)
 1. **Buka [Netlify](https://netlify.com)** → **Add new site** → **Deploy manually**
 2. **Drag & drop** folder project atau ZIP file
 3. **Pastikan** file `netlify.toml` dan `_redirects` terupload untuk SPA routing
 4. **Setelah live**, buka URL situs Anda
+
+#### Opsi 2: Deploy via GitHub (Recommended)
+
+**Step 1: Persiapkan Repository GitHub**
+
+1. **Login** ke GitHub dan buat repository baru
+2. **Push** project ke GitHub:
+   ```bash
+   # Inisialisasi Git (jika belum)
+   git init
+   
+   # Tambahkan semua file
+   git add .
+   
+   # Commit pertama
+   git commit -m "Initial commit - EduGames project"
+   
+   # Tambahkan remote GitHub (ganti dengan URL repo Anda)
+   git remote add origin https://github.com/username/repo-name.git
+   
+   # Push ke GitHub
+   git branch -M main
+   git push -u origin main
+   ```
+
+**Step 2: Connect ke Netlify**
+
+1. **Login** ke [Netlify](https://netlify.com)
+2. Klik **"Add new site"** → **"Import an existing project"**
+3. Pilih **"Deploy with GitHub"**
+4. **Authorize** Netlify untuk mengakses GitHub Anda
+5. **Pilih repository** yang baru Anda buat
+6. **Configure settings**:
+   - **Branch to deploy**: `main` (atau `master`)
+   - **Build command**: (kosongkan, karena ini static site)
+   - **Publish directory**: (kosongkan atau isi dengan `/`)
+7. Klik **"Deploy site"**
+
+**Step 3: Configure Domain & Settings**
+
+1. **Custom Domain** (opsional):
+   - Go to **Site settings** → **Domain management**
+   - Add custom domain jika ada
+2. **Environment Variables** (jika diperlukan):
+   - Go to **Site settings** → **Environment variables**
+3. **Build & Deploy Settings**:
+   - Pastikan **Auto publishing** aktif untuk deploy otomatis setiap push
+
+**Step 4: Verifikasi Deploy**
+
+- Netlify akan otomatis build dan deploy
+- Cek **Deploy log** jika ada error
+- Test semua fitur PWA dan game modules
+- Pastikan routing SPA berfungsi dengan baik
+
+**Tips & Best Practices untuk GitHub + Netlify:**
+
+✅ **Auto Deploy**: Setiap kali Anda push ke branch `main`, Netlify akan otomatis deploy ulang
+
+✅ **Branch Preview**: Buat branch `development` untuk testing sebelum merge ke `main`
+
+✅ **Build Commands**: Untuk static site seperti ini, tidak perlu build command
+
+✅ **Custom Domain**: Gunakan domain custom untuk tampilan profesional
+
+**Troubleshooting Common Issues:**
+
+🔧 **404 Error pada Refresh**: 
+   - Pastikan file `_redirects` dan `netlify.toml` ada di root folder
+   - Isi `_redirects` dengan: `/* /index.html 200`
+
+🔧 **Game Module Tidak Load**: 
+   - Check console browser untuk error CORS atau module loading
+   - Pastikan semua file `.js` di folder `games/` ter-upload
+
+🔧 **PWA Tidak Berfungsi**:
+   - Verifikasi `manifest.webmanifest` dan `sw.js` accessible
+   - Test di HTTPS (Netlify otomatis provide SSL)
+
+🔧 **Deploy Gagal**:
+   - Check Deploy log di Netlify dashboard
+   - Pastikan tidak ada file yang terlalu besar (>100MB)
+   - Verify Git history tidak corrupt
 
 ### Deploy ke Vercel
 
@@ -227,14 +311,72 @@ Project ini menggunakan lisensi MIT. Lihat file `LICENSE` untuk detail.
 - Web browser modern (Chrome, Firefox, Safari, Edge)
 - Local web server (Python, Node.js, atau PHP)
 - Text editor (VS Code, Sublime, dll)
+- Git untuk version control
+- GitHub account untuk hosting repository
+- Netlify account untuk deployment
+
+### Workflow Development dengan GitHub + Netlify
+
+```bash
+# 1. Clone repository (untuk kontributor)
+git clone https://github.com/username/repo-name.git
+cd repo-name
+
+# 2. Buat branch fitur baru
+git checkout -b feature/new-game
+
+# 3. Develop dan test locally
+python -m http.server 8000
+# Test di http://localhost:8000
+
+# 4. Commit changes
+git add .
+git commit -m "feat: add new educational game"
+
+# 5. Push branch ke GitHub
+git push origin feature/new-game
+
+# 6. Buat Pull Request di GitHub
+# 7. Setelah merge ke main, Netlify auto-deploy
+```
+
+### Local Development Setup
+
+1. **Clone project:**
+   ```bash
+   git clone https://github.com/your-username/kuis.git
+   cd kuis
+   ```
+
+2. **Start local server:**
+   ```bash
+   # Pilih salah satu:
+   python -m http.server 8000
+   # atau
+   npx serve .
+   # atau
+   php -S localhost:8000
+   ```
+
+3. **Open browser:**
+   - Navigate to `http://localhost:8000`
+   - Test semua games dan features
+
+4. **Development workflow:**
+   - Edit files dengan text editor favorit
+   - Test changes di local server
+   - Commit dan push ke GitHub
+   - Netlify akan auto-deploy dari GitHub
 
 ### Best Practices
 
-- Gunakan ES6+ features
-- Implement proper error handling
-- Test di mobile devices
-- Optimize untuk performa
-- Ikuti accessibility guidelines
+- **Git Flow**: Gunakan branch terpisah untuk setiap fitur
+- **ES6+ Features**: Utilize modern JavaScript
+- **Error Handling**: Implement proper try-catch blocks
+- **Mobile Testing**: Test di berbagai device sizes
+- **Performance**: Optimize assets dan loading times
+- **Accessibility**: Follow WCAG guidelines
+- **PWA**: Ensure offline functionality works
 
 ## 📞 Support
 
@@ -243,6 +385,31 @@ Jika ada pertanyaan atau masalah:
 - **Create Issue** di GitHub repository
 - **Email**: your-email@domain.com
 - **Documentation**: Cek file README ini
+
+---
+
+## 🚀 Quick Deploy Action
+
+Jika Anda ingin langsung deploy project ini ke Netlify via GitHub, jalankan commands berikut:
+
+```bash
+# 1. Add semua file ke Git
+git add .
+
+# 2. Commit dengan message yang jelas
+git commit -m "docs: update comprehensive README with deployment guide"
+
+# 3. Push ke GitHub (pastikan sudah ada remote origin)
+git push origin main
+
+# 4. Lanjut ke Step 2 di panduan "Deploy via GitHub" di atas
+```
+
+**Current Git Status:**
+- ✅ Repository sudah di-initialize
+- ✅ Remote origin sudah terpasang
+- 📝 README.md telah diupdate dengan dokumentasi lengkap
+- ⏳ Siap untuk commit dan push
 
 ---
 

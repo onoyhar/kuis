@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Games Seru — Kids & Teens</title>
+  <meta name="description" content="Kumpulan 25 game edukasi dalam satu website. Mobile-friendly.">
+  <meta name="theme-color" content="#22c55e"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Games Seru">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="apple-touch-startup-image" href="assets/splash.png">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="modulepreload" href="app.js">
+  <link rel="modulepreload" href="utils.js">
+  <link rel="modulepreload" href="games/vocab_ar_id.js">
+  <link rel="modulepreload" href="games/speed_math.js">
+  <link rel="modulepreload" href="games/memory_match.js">
+  <link rel="modulepreload" href="games/word_scramble.js">
+  <link rel="modulepreload" href="games/guess_number.js">
+</head>
+<body>
+<!-- Skip link -->
+<a href="#view" class="skip-link">Lewati ke konten</a>
+<!-- Back button -->
+<button class="back-button" onclick="window.location.href='landing.html'" aria-label="Back to Portal">←</button>
+<header class="appbar">
+  <div class="brand">🎒 Games Seru <span class="badge">Kids & Teens</span></div>
+  <button id="btnMenu" class="icon-btn" aria-label="Menu">☰</button>
+</header>
+
+<nav id="drawer" class="drawer" aria-label="Daftar Games">
+  <div class="drawer-header">
+    <div class="brand">🎮 Pilih Game</div>
+    <button id="btnCloseDrawer" class="icon-btn" aria-label="Tutup">✕</button>
+  </div>
+  <ul id="gameList" class="menu"></ul>
+</nav>
+<div id="backdrop" class="backdrop"></div>
+
+<main id="view">
+  <section class="hero">
+    <div class="hero-content glass">
+      <h1>🎓 EDU Games</h1>
+      <p>Pilih kategori untuk memulai petualangan belajarmu!</p>
+    </div>
+  </section>
+
+  <section id="categoryView">
+    <div class="category-menu glass">
+      <h2 class="category-title">Pilih Kategori</h2>
+      <div class="category-grid">
+        <button class="category-button glass-button" data-category="Bahasa">
+          <span class="icon">📚</span>
+          <span class="label">Bahasa</span>
+          <span class="status">7 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Matematika">
+          <span class="icon">🔢</span>
+          <span class="label">Matematika</span>
+          <span class="status">4 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Sains">
+          <span class="icon">🔬</span>
+          <span class="label">Sains</span>
+          <span class="status">5 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Kreativitas">
+          <span class="icon">🎨</span>
+          <span class="label">Kreativitas</span>
+          <span class="status">4 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Logika">
+          <span class="icon">🧩</span>
+          <span class="label">Logika</span>
+          <span class="status">4 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Life Skills">
+          <span class="icon">💡</span>
+          <span class="label">Life Skills</span>
+          <span class="status">4 Games</span>
+        </button>
+        <button class="category-button glass-button" data-category="Semua">
+          <span class="icon">🎮</span>
+          <span class="label">Semua Games</span>
+          <span class="status">28 Games</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="gameListView" style="display: none;">
+    <h2 id="categoryTitle">Games</h2>
+    <button class="btn" onclick="showCategories()">← Kembali ke Kategori</button>
+    <div class="grid" id="cards"></div>
+  </section>
+</main>
+
+<footer class="footer" style="color: aliceblue;">Made with ❤️
+    <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Portal Games Seru. All Rights Reserved.</p>
+</footer>
+
+
+<!-- Modal container used by games -->
+<div id="modalHost"></div>
+
+<!-- Loader overlay -->
+<div id="loader" class="loader-overlay">
+  <div class="loader-content">
+    <div class="spinner"></div>
+    <div class="loader-text">Memuat...</div>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+</script>
+</body>
+</html>
